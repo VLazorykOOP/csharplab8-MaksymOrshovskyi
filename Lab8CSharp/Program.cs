@@ -103,3 +103,41 @@ class Program
         }
     }
 }
+
+//______________________ task 3
+using System;
+using System.IO;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        // Шлях до вхідного та вихідного файлів
+        string inputFilePath = "input.txt";
+
+        try
+        {
+            // Читання вмісту вхідного файлу
+            string inputText = File.ReadAllText(inputFilePath);
+
+            // Розділення тексту на слова за допомогою пробілів та розділових знаків
+            string[] words = inputText.Split(new char[] { ' ', ',', '.', ';', ':', '!', '?' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Знаходження довжини найбільшого слова
+            int maxLength = words.Max(word => word.Length);
+
+            // Вилучення всіх слів найбільшої довжини з тексту
+            string resultText = string.Join(" ", words.Where(word => word.Length < maxLength));
+
+            // Вивід результату у консоль
+            Console.WriteLine("Текст після вилучення слів найбільшої довжини:");
+            Console.WriteLine(resultText);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Сталася помилка: {ex.Message}");
+        }
+    }
+}
+
