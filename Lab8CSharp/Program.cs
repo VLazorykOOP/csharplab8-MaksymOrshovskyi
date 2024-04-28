@@ -58,3 +58,48 @@ class Program
         return ipAddress; // Покищо повертаємо саму IP-адресу без змін
     }
 }
+
+//______________task2
+
+using System;
+using System.IO;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        // Шлях до вхідного та вихідного файлів
+        string inputFilePath = "input.txt";
+        string outputFilePath = "output.txt";
+
+        try
+        {
+            // Читання вмісту вхідного файлу
+            string[] lines = File.ReadAllLines(inputFilePath);
+
+            // Задана довжина слова, які ми шукаємо
+            int desiredLength = 5; // Змініть це значення на бажану довжину слова
+
+            // Вибір слів заданої довжини з усіх рядків тексту
+            var wordsOfDesiredLength = lines
+                .SelectMany(line => line.Split(' ', StringSplitOptions.RemoveEmptyEntries)) // Розділити рядок на слова
+                .Where(word => word.Length == desiredLength); // Вибрати слова заданої довжини
+
+            // Запис результатів у вихідний файл
+            using (StreamWriter writer = new StreamWriter(outputFilePath))
+            {
+                foreach (var word in wordsOfDesiredLength)
+                {
+                    writer.WriteLine(word);
+                }
+            }
+
+            Console.WriteLine($"Слова довжини {desiredLength} були успішно записані у файл {outputFilePath}.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Сталася помилка: {ex.Message}");
+        }
+    }
+}
