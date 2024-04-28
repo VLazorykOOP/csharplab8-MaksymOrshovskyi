@@ -141,3 +141,69 @@ class Program
     }
 }
 
+//______________________ task 4
+
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        string filePath = "numbers.bin";
+        int n = 10; // Змініть це значення на бажану кількість чисел (n)
+
+        // Створення і запис чисел у двійковий файл
+        try
+        {
+            using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
+            {
+                for (int i = 1; i <= n; i++)
+                {
+                    double value = 1.0 / i;
+                    writer.Write(value);
+                }
+            }
+
+            Console.WriteLine($"Файл {filePath} був успішно створений та заповнений числами.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Сталася помилка при створенні файлу: {ex.Message}");
+            return;
+        }
+
+        // Виведення компонентів файлу з порядковим номером, кратним 3
+        try
+        {
+            using (BinaryReader reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
+            {
+                int count = 0;
+                long position = 0;
+
+                while (reader.BaseStream.Position < reader.BaseStream.Length)
+                {
+                    double value = reader.ReadDouble();
+                    position++;
+
+                    if (position % 3 == 0)
+                    {
+                        Console.WriteLine($"Компонент з порядковим номером {position}: {value}");
+                        count++;
+                    }
+                }
+
+                if (count == 0)
+                {
+                    Console.WriteLine("У файлі немає компонентів з порядковим номером, кратним 3.");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Сталася помилка при читанні файлу: {ex.Message}");
+        }
+    }
+}
+
+
